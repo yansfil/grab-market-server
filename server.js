@@ -7,6 +7,8 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/products", (req, res) => {
+  const query = req.query;
+  console.log("QUERY : ", query);
   res.send({
     products: [
       {
@@ -35,7 +37,16 @@ app.get("/products", (req, res) => {
 });
 
 app.post("/products", (req, res) => {
-  res.send("상품이 등록되었습니다.");
+  const body = req.body;
+  res.send({
+    body,
+  });
+});
+
+app.get("/products/:id/events/:eventId", (req, res) => {
+  const params = req.params;
+  const { id, eventId } = params;
+  res.send(`id는 ${id}와 ${eventId}입니다`);
 });
 
 app.listen(port, () => {
