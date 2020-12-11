@@ -32,21 +32,22 @@ app.get("/products", (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.send("에러 발생");
+      res.status(400).send("에러 발생");
     });
 });
 
 app.post("/products", (req, res) => {
   const body = req.body;
-  const { name, description, price, seller } = body;
-  if (!name || !description || !price || !seller) {
-    res.send("모든 필드를 입력해주세요");
+  const { name, description, price, seller, imageUrl } = body;
+  if (!name || !description || !price || !seller || !imageUrl) {
+    res.status(400).send("모든 필드를 입력해주세요");
   }
   models.Product.create({
     name,
     description,
     price,
     seller,
+    imageUrl,
   })
     .then((result) => {
       console.log("상품 생성 결과 : ", result);
@@ -56,7 +57,7 @@ app.post("/products", (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.send("상품 업로드에 문제가 발생했습니다");
+      res.status(400).send("상품 업로드에 문제가 발생했습니다");
     });
 });
 
@@ -76,7 +77,7 @@ app.get("/products/:id", (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.send("상품 조회에 에러가 발생했습니다");
+      res.status(400).send("상품 조회에 에러가 발생했습니다");
     });
 });
 
