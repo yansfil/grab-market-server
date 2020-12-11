@@ -10,7 +10,7 @@ app.use(cors());
 app.get("/products", (req, res) => {
   models.Product.findAll({
     order: [["createdAt", "DESC"]],
-    attributes: ["id", "name", "price", "createdAt", "seller"],
+    attributes: ["id", "name", "price", "createdAt", "seller", "imageUrl"],
   })
     .then((result) => {
       console.log("PRODUCTS : ", result);
