@@ -42,13 +42,7 @@ app.post("/products", (req, res) => {
   if (!name || !description || !price || !seller || !imageUrl) {
     res.status(400).send("모든 필드를 입력해주세요");
   }
-  models.Product.create({
-    name,
-    description,
-    price,
-    seller,
-    imageUrl,
-  })
+  models.Product.create({ description, price, seller, imageUrl, name })
     .then((result) => {
       console.log("상품 생성 결과 : ", result);
       res.send({
