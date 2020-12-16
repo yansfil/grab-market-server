@@ -13,6 +13,7 @@ const upload = multer({
     },
   }),
 });
+const detectProduct = require("./helpers/detectProduct");
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
@@ -65,17 +66,19 @@ app.post("/products", (req, res) => {
   if (!name || !description || !price || !seller || !imageUrl) {
     res.status(400).send("모든 필드를 입력해주세요");
   }
-  models.Product.create({ description, price, seller, imageUrl, name })
-    .then((result) => {
-      console.log("상품 생성 결과 : ", result);
-      res.send({
-        result,
+  detectProduct(imageUrl, (type) => {
+    models.Product.create({ description, price, seller, imageUrl, name, type })
+      .then((result) => {
+        console.log("상품 생성 결과 : ", result);
+        res.send({
+          result,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(400).send("상품 업로드에 문제가 발생했습니다");
       });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(400).send("상품 업로드에 문제가 발생했습니다");
-    });
+  });
 });
 
 app.get("/products/:id", (req, res) => {
